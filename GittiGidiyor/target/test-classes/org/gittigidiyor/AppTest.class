@@ -1,0 +1,49 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package org.gittigidiyor;
+
+import java.util.concurrent.TimeUnit;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class AppTest {
+    public WebDriver driver;
+
+    public AppTest() {
+    }
+
+    public void setupDriver() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\cmust\\Desktop\\GittiGidiyor\\chromedriver.exe");
+        this.driver = new ChromeDriver();
+        String url = "https://www.gittigidiyor.com/";
+        this.driver.get(url);
+        this.driver.manage().window().maximize();
+        this.driver.manage().timeouts().implicitlyWait(30L, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void TestHome() {
+        WebElement signbtn = this.driver.findElement(By.id("btnSignIn"));
+        signbtn.click();
+        this.driver.manage().timeouts().implicitlyWait(30L, TimeUnit.SECONDS);
+        WebElement mailbox = this.driver.findElement(By.id("L-UserNameField"));
+        mailbox.click();
+        mailbox.sendKeys(new CharSequence[]{"mstafaerdoan@gmail.com"});
+        WebElement password = this.driver.findElement(By.id("password"));
+        password.click();
+        password.sendKeys(new CharSequence[]{"Mustafa123"});
+        this.driver.manage().timeouts().implicitlyWait(45L, TimeUnit.SECONDS);
+        this.driver.findElement(By.id("gg-login-enter")).click();
+    }
+
+    public void quitDriver() {
+        this.driver.manage().timeouts().implicitlyWait(45L, TimeUnit.SECONDS);
+        this.driver.quit();
+    }
+}
