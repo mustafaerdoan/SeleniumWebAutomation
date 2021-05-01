@@ -1,6 +1,9 @@
 package org.gittigidiyor;
+import jdk.internal.net.http.common.Log;
+import log.LogClass;
 import org.junit.After;
 import org.junit.Before;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -26,8 +29,8 @@ public class AppTest {
     @Test
     // to login to webpage by using id
     public void TestHome(){
-
-        WebElement signbtn= driver.findElement(By.id("btnSignIn"));
+        LogClass.startLog("started log");
+        WebElement signbtn= driver.findElement(By.className("gekhq4-6 hnYHyk"));
         signbtn.click();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
@@ -38,12 +41,15 @@ public class AppTest {
         WebElement password = driver.findElement(By.id("password"));
         password.click();
         password.sendKeys("Mustafa123");
+
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
         driver.findElement(By.id("gg-login-enter")).click();
+        LogClass.info("logged to system");
     }
     //@After
     public void quitDriver(){
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
         driver.quit();
+        LogClass.endLog("ended log");
     }
 }
