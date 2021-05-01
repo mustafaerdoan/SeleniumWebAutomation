@@ -10,7 +10,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 
 public class AppTest2 {
-
     public WebDriver driver;
     //public WebDriverWait wait;
     @Before
@@ -23,21 +22,28 @@ public class AppTest2 {
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
     }
     @Test
-    public void TestSearch(){
+    public void TestSearch() {
 
+        ComputerSearch(); // searching "bilgisayar in search box"
+        openSecondPage(); //opening second page of what we searched in search box
+        addingCart();// adding item to cart
+        removeItems();// removing all of items in cart
+        }
+
+    @After
+    public void quitDriver(){
+        driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
+        driver.quit();
+    }
+    public void ComputerSearch(){
+        WebElement searchBox;
         /* to search "bilgisayar" in search box */
-        WebElement searchBox = driver.findElement(By.id("searchData"));
+        searchBox = driver.findElement(By.id("searchData"));
         searchBox.click();
         searchBox.sendKeys("Bilgisayar");
         driver.findElement(By.className("searchBtn")).click();
-
-        /* To open 2nd page of searching result page and to pick randomly an item */
-        driver.findElement(By.xpath(".//*[@class='pagination']/a[2]")).click();
-        driver.findElement(By.xpath(".//*[@id='p-369374378']/div[1]/a[1]")).click();
-
-        WebElement price= driver.findElement(By.xpath(".//*[@class='newPrice']/ins[1]"));
-        String priceText= price.getText();
-
+    }
+    public void addingCart(){
         /* After searching item, adding to cart that item*/
         WebElement quantityBox = driver.findElement(By.id("quantity"));
         quantityBox.click();
@@ -48,11 +54,24 @@ public class AppTest2 {
         basketBtn.click();
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
         driver.findElement(By.className("iconBasket")).click();
+    }
+    public void removeItems(){
+        /* To remove all of items in cart */
+        driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
+        driver.findElement(By.className("removeProd")).click();
+    }
+    public void openSecondPage() {
+        /* To open 2nd page of searching result page and to pick second  item */
+        driver.findElement(By.xpath(".//*[@class='pagination']/a[2]")).click();
+        driver.findElement(By.xpath(".//*[@id='p-369374378']/div[1]/a[1]")).click();
+
+        WebElement price = driver.findElement(By.xpath(".//*[@class='newPrice']/ins[1]"));
+        String priceText = price.getText();
 
         /* To compare price of products between currentPage and cart */
-        WebElement priceBasket= driver.findElement(By.className("price"));
-        String priceText2= priceBasket.getText();
-        if(priceText.compareTo(priceText2)>0){
+        WebElement priceBasket = driver.findElement(By.className("price"));
+        String priceText2 = priceBasket.getText();
+        if (priceText.compareTo(priceText2) > 0) {
 
             /* To increase amount of product in cart */
             WebElement quantityBasket = driver.findElement(By.id("quantity_126686985817"));
@@ -60,14 +79,7 @@ public class AppTest2 {
             quantityBasket.clear();
             quantityBasket.sendKeys("1");
             driver.findElement(By.className("spinnerUp")).click();
+
         }
-        /* To remove all of items in cart */
-        driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
-        driver.findElement(By.className("removeProd")).click();
-    }
-    @After
-    public void quitDriver(){
-        driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
-        driver.quit();
     }
 }
